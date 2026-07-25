@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NAKLO - The Lyuty</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,7 +15,7 @@
         body {
             background-color: #0b0b0b;
             color: #ffffff;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Georgia', serif;
             height: 100vh;
             overflow: hidden;
             display: flex;
@@ -143,6 +143,7 @@
             letter-spacing: 0.1em;
             cursor: pointer;
             transition: background 0.3s ease;
+            font-family: 'Georgia', serif;
         }
 
         .bg-uploader:hover {
@@ -175,9 +176,9 @@
             <a href="#" class="logo-text">NAKLO</a>
         </div>
         <nav class="nav-center">
-            <a href="#" data-key="nav_configure">CONFIGURE</a>
-            <a href="#" data-key="nav_aftermarket">AFTERMARKET</a>
-            <a href="#" data-key="nav_maintenance">MAINTENANCE</a>
+            <a href="#" data-key="nav_configure">KONFIGUROVAŤ</a>
+            <a href="#" data-key="nav_aftermarket">DIELY A DOPLNKY</a>
+            <a href="#" data-key="nav_maintenance">ÚDRŽBA</a>
         </nav>
         <div class="nav-right">
             <span data-lang="en">EN</span>
@@ -195,13 +196,12 @@
 
         <!-- Image Uploader Button -->
         <label class="bg-uploader" data-key="upload_btn">
-            CHANGE BACKGROUND
+            ZMENIŤ POZADIE
             <input type="file" id="imageUpload" accept="image/*">
         </label>
     </main>
 
     <script>
-        // Dictionary of translations
         const translations = {
             sk: {
                 nav_configure: "KONFIGUROVAŤ",
@@ -226,27 +226,24 @@
             }
         };
 
-        // Handle language switching
         const langTriggers = document.querySelectorAll('.nav-right span');
-        
-        langTriggersforEach = (elements, callback) => {
-            elements.forEach(callback);
-        };
 
-        langTriggers.forEach(trigger => {
+        langTriggers.forEach(function(trigger) {
             trigger.addEventListener('click', function() {
                 const selectedLang = this.getAttribute('data-lang');
                 
-                // Update active state styling in top right
-                langTriggers.forEach(t => t.classList.remove('active'));
+                // Remove active class from all and add to clicked one
+                langTriggers.forEach(function(t) {
+                    t.classList.remove('active');
+                });
                 this.classList.add('active');
 
-                // Update document language attribute
+                // Update html/body lang attributes
                 document.documentElement.lang = selectedLang;
                 document.body.setAttribute('lang', selectedLang);
 
-                // Update text elements based on dictionary
-                document.querySelectorAll('[data-key]').forEach(el => {
+                // Update text fields
+                document.querySelectorAll('[data-key]').forEach(function(el) {
                     const key = el.getAttribute('data-key');
                     if (translations[selectedLang] && translations[selectedLang][key]) {
                         el.innerHTML = translations[selectedLang][key];
@@ -255,7 +252,7 @@
             });
         });
 
-        // Background Image Uploader Logic
+        // Background Image Uploader
         document.getElementById('imageUpload').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
