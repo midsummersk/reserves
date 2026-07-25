@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -167,7 +167,7 @@
         }
     </style>
 </head>
-<body>
+<body lang="sk">
 
     <header>
         <div class="nav-left">
@@ -175,14 +175,14 @@
             <a href="#" class="logo-text">NAKLO</a>
         </div>
         <nav class="nav-center">
-            <a href="#">CONFIGURE</a>
-            <a href="#">AFTERMARKET</a>
-            <a href="#">MAINTENANCE</a>
+            <a href="#" data-key="nav_configure">CONFIGURE</a>
+            <a href="#" data-key="nav_aftermarket">AFTERMARKET</a>
+            <a href="#" data-key="nav_maintenance">MAINTENANCE</a>
         </nav>
         <div class="nav-right">
-            <span class="active">SK</span>
-            <span>EN</span>
-            <span>DE</span>
+            <span data-lang="en">EN</span>
+            <span data-lang="de">DE</span>
+            <span data-lang="sk" class="active">SK</span>
         </div>
     </header>
 
@@ -190,17 +190,72 @@
         <div class="hero-background" id="heroBg"></div>
         
         <div class="hero-content">
-            <h1 class="hero-title">the<br>Lyuty.</h1>
+            <h1 class="hero-title" data-key="hero_title">the<br>Lyuty.</h1>
         </div>
 
         <!-- Image Uploader Button -->
-        <label class="bg-uploader">
+        <label class="bg-uploader" data-key="upload_btn">
             CHANGE BACKGROUND
             <input type="file" id="imageUpload" accept="image/*">
         </label>
     </main>
 
     <script>
+        // Dictionary of translations
+        const translations = {
+            sk: {
+                nav_configure: "KONFIGUROVAŤ",
+                nav_aftermarket: "DIELY A DOPLNKY",
+                nav_maintenance: "ÚDRŽBA",
+                hero_title: "the<br>Lyuty.",
+                upload_btn: "ZMENIŤ POZADIE"
+            },
+            en: {
+                nav_configure: "CONFIGURE",
+                nav_aftermarket: "AFTERMARKET",
+                nav_maintenance: "MAINTENANCE",
+                hero_title: "the<br>Lyuty.",
+                upload_btn: "CHANGE BACKGROUND"
+            },
+            de: {
+                nav_configure: "KONFIGURIEREN",
+                nav_aftermarket: "ZUBEHÖR",
+                nav_maintenance: "WARTUNG",
+                hero_title: "the<br>Lyuty.",
+                upload_btn: "HINTERGRUND ÄNDERN"
+            }
+        };
+
+        // Handle language switching
+        const langTriggers = document.querySelectorAll('.nav-right span');
+        
+        langTriggersforEach = (elements, callback) => {
+            elements.forEach(callback);
+        };
+
+        langTriggers.forEach(trigger => {
+            trigger.addEventListener('click', function() {
+                const selectedLang = this.getAttribute('data-lang');
+                
+                // Update active state styling in top right
+                langTriggers.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // Update document language attribute
+                document.documentElement.lang = selectedLang;
+                document.body.setAttribute('lang', selectedLang);
+
+                // Update text elements based on dictionary
+                document.querySelectorAll('[data-key]').forEach(el => {
+                    const key = el.getAttribute('data-key');
+                    if (translations[selectedLang] && translations[selectedLang][key]) {
+                        el.innerHTML = translations[selectedLang][key];
+                    }
+                });
+            });
+        });
+
+        // Background Image Uploader Logic
         document.getElementById('imageUpload').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
