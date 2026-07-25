@@ -3,33 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
-
+    <title>NAKLO - The Lyuty</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        body{
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background:#111;
-            color:white;
-            font-family:Arial, Helvetica, sans-serif;
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        h1{
-            font-size:4rem;
+        /* Header / Navbar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 4rem;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #ffffff;
+            border-radius: 50%;
+        }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: 0.15em;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 4rem;
+        }
+
+        .nav-center a {
+            color: #a0a0a0;
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-center a:hover {
+            color: #ffffff;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            color: #a0a0a0;
+        }
+
+        .nav-right span {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .nav-right span.active, .nav-right span:hover {
+            color: #ffffff;
+        }
+
+        /* Main Hero Section */
+        main {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            padding: 4rem;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Background Car Image Layer */
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(11,11,11,0.6), rgba(11,11,11,0.9)), 
+                        url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            color: #f2f0ea;
+        }
+
+        /* Background Upload Button Styling */
+        .bg-uploader {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            color: #ffffff;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .bg-uploader:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .bg-uploader input {
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            header {
+                padding: 1.5rem 2rem;
+            }
+            .nav-center {
+                display: none;
+            }
+            main {
+                padding: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 
-<h1>Prosím, počkejte vteřinu.</h1>
+    <header>
+        <div class="nav-left">
+            <div class="logo-dot"></div>
+            <a href="#" class="logo-text">NAKLO</a>
+        </div>
+        <nav class="nav-center">
+            <a href="#">CONFIGURE</a>
+            <a href="#">AFTERMARKET</a>
+            <a href="#">MAINTENANCE</a>
+        </nav>
+        <div class="nav-right">
+            <span class="active">EN</span>
+            <span>DE</span>
+            <span>SK</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero-background" id="heroBg"></div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">the<br>Lyuty.</h1>
+        </div>
+
+        <!-- Image Uploader Button -->
+        <label class="bg-uploader">
+            CHANGE BACKGROUND
+            <input type="file" id="imageUpload" accept="image/*">
+        </label>
+    </main>
+
+    <script>
+        document.getElementById('imageUpload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const heroBg = document.getElementById('heroBg');
+                    heroBg.style.background = `linear-gradient(to bottom, rgba(11,11,11,0.6), rgba(11,11,11,0.9)), url('${e.target.result}') center/cover no-repeat`;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 
 </body>
 </html>
